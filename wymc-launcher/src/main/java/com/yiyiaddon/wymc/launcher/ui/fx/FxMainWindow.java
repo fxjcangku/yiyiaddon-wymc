@@ -70,6 +70,16 @@ public class FxMainWindow extends Application {
         primaryStage.setTitle("YiYi WYMC Loader");
         primaryStage.initStyle(StageStyle.DECORATED);
         
+        // 设置窗口图标
+        try {
+            javafx.scene.image.Image icon = new javafx.scene.image.Image(
+                getClass().getResourceAsStream("/icon.png")
+            );
+            primaryStage.getIcons().add(icon);
+        } catch (Exception e) {
+            LOGGER.warn("无法加载窗口图标", e);
+        }
+        
         VBox root = createMainLayout();
         
         Scene scene = new Scene(root, 900, 900);
@@ -150,9 +160,9 @@ public class FxMainWindow extends Application {
         javaArchLabel = createValueLabel("N/A");
         
         return createSection("Java",
-            createInfoRow("Version:", javaVersionLabel),
-            createInfoRow("VM:", javaVmLabel),
-            createInfoRow("Architecture:", javaArchLabel)
+            createInfoRow("版本:", javaVersionLabel),
+            createInfoRow("虚拟机:", javaVmLabel),
+            createInfoRow("架构:", javaArchLabel)
         );
     }
     
@@ -163,10 +173,10 @@ public class FxMainWindow extends Application {
         classLoaderLabel = createValueLabel("N/A");
         
         return createSection("Runtime",
-            createInfoRow("NetEase:", netEaseLabel),
-            createInfoRow("Mapping:", mappingLabel),
-            createInfoRow("Obfuscation:", obfuscationLabel),
-            createInfoRow("ClassLoader:", classLoaderLabel)
+            createInfoRow("网易版本:", netEaseLabel),
+            createInfoRow("映射表:", mappingLabel),
+            createInfoRow("混淆类型:", obfuscationLabel),
+            createInfoRow("类加载器:", classLoaderLabel)
         );
     }
     
@@ -176,9 +186,9 @@ public class FxMainWindow extends Application {
         classDumpLabel = createValueLabel("N/A");
         
         return createSection("Unpack",
-            createInfoRow("Runtime Classes:", runtimeClassesLabel),
-            createInfoRow("Runtime Recovery:", runtimeRecoveryLabel),
-            createInfoRow("Class Dump:", classDumpLabel)
+            createInfoRow("运行时类:", runtimeClassesLabel),
+            createInfoRow("恢复进度:", runtimeRecoveryLabel),
+            createInfoRow("类导出:", classDumpLabel)
         );
     }
     
@@ -188,9 +198,9 @@ public class FxMainWindow extends Application {
         agentLabel = createValueLabel("N/A");
         
         return createSection("Injection",
-            createInfoRow("Attach:", attachLabel),
-            createInfoRow("Instrumentation:", instrumentationLabel),
-            createInfoRow("Agent:", agentLabel)
+            createInfoRow("进程附加:", attachLabel),
+            createInfoRow("字节码增强:", instrumentationLabel),
+            createInfoRow("Agent 状态:", agentLabel)
         );
     }
     
@@ -203,12 +213,12 @@ public class FxMainWindow extends Application {
         serverLatencyLabel = createValueLabel("N/A");
         
         return createSection("Server",
-            createInfoRow("Connected:", serverConnectedLabel),
-            createInfoRow("Brand:", serverBrandLabel),
-            createInfoRow("Protocol:", serverProtocolLabel),
-            createInfoRow("Address:", serverAddressLabel),
-            createInfoRow("Port:", serverPortLabel),
-            createInfoRow("Latency:", serverLatencyLabel)
+            createInfoRow("连接状态:", serverConnectedLabel),
+            createInfoRow("服务器品牌:", serverBrandLabel),
+            createInfoRow("协议版本:", serverProtocolLabel),
+            createInfoRow("服务器地址:", serverAddressLabel),
+            createInfoRow("端口:", serverPortLabel),
+            createInfoRow("延迟:", serverLatencyLabel)
         );
     }
     
