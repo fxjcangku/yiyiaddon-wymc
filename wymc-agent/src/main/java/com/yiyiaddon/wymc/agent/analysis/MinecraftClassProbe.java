@@ -18,6 +18,10 @@ public class MinecraftClassProbe {
         this.instrumentation = instrumentation;
     }
     
+    public void probeMinecraftClasses() {
+        probe();
+    }
+    
     public void probe() {
         System.out.println("[WYMC] Probing Minecraft classes");
         

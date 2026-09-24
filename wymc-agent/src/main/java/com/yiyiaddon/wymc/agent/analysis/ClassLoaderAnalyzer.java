@@ -10,6 +10,10 @@ public class ClassLoaderAnalyzer {
         this.instrumentation = instrumentation;
     }
     
+    public void analyzeClassLoaders() {
+        analyze();
+    }
+    
     public void analyze() {
         System.out.println("[WYMC] Analyzing ClassLoader structure");
         
