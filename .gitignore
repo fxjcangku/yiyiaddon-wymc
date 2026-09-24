@@ -1,0 +1,12 @@
+.gradle/
+build/
+*.class
+*.jar
+!gradle-wrapper.jar
+*.log
+.idea/
+*.iml
+out/
+logs/
+reports/
+runtime-dump/

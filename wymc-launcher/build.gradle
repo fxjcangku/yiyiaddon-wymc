@@ -1,0 +1,31 @@
+plugins {
+    id 'application'
+}
+
+application {
+    mainClass = 'com.yiyiaddon.wymc.launcher.WymcLauncher'
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
+    implementation 'net.java.dev.jna:jna:5.13.0'
+    implementation 'net.java.dev.jna:jna-platform:5.13.0'
+}
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'com.yiyiaddon.wymc.launcher.WymcLauncher',
+            'Implementation-Title': 'YiYi WYMC Loader',
+            'Implementation-Version': project.version
+        )
+    }
+    
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

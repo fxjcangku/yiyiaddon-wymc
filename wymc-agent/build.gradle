@@ -1,0 +1,18 @@
+dependencies {
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    compileOnly 'org.ow2.asm:asm:9.6'
+    compileOnly 'org.ow2.asm:asm-commons:9.6'
+    compileOnly 'org.ow2.asm:asm-tree:9.6'
+}
+
+jar {
+    manifest {
+        attributes(
+            'Agent-Class': 'com.yiyiaddon.wymc.agent.WymcAgent',
+            'Can-Retransform-Classes': 'true',
+            'Can-Redefine-Classes': 'true',
+            'Can-Set-Native-Method-Prefix': 'false'
+        )
+    }
+}
