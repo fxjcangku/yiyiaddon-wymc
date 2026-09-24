@@ -34,7 +34,7 @@ public class GlassButton extends JButton {
         setForeground(Color.WHITE);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        setPreferredSize(new Dimension(110, 36));
+        setPreferredSize(new Dimension(128, 36));
         
         addMouseListener(new MouseAdapter() {
             @Override

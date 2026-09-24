@@ -22,6 +22,18 @@ public class WymcLauncher {
             SwingUtilities.invokeLater(() -> {
                 MainWindow window = new MainWindow();
                 window.setVisible(true);
+                
+                // 界面截图（可选）：-Dwymc.capture=<输出文件路径>
+                // 用于界面记录与发布页截图，不传该属性时完全不生效
+                String capturePath = System.getProperty("wymc.capture");
+                if (capturePath != null && !capturePath.isBlank()) {
+                    javax.swing.Timer timer = new javax.swing.Timer(4000, e -> {
+                        boolean ok = window.captureSelf(capturePath);
+                        LOGGER.info("界面截图{}", ok ? "成功" : "失败");
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+                }
             });
             
             LOGGER.info("YiYi WYMC Loader started");

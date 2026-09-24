@@ -74,7 +74,7 @@ public class MainWindow extends JFrame {
     
     private void initModernUI() {
         setTitle("YiYi WYMC Loader");
-        setSize(750, 850);
+        setSize(820, 1010);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
@@ -255,7 +255,8 @@ public class MainWindow extends JFrame {
         new Thread(() -> {
             try {
                 Thread.sleep(500);
-                detectMinecraft();
+                // 自动检测静默执行：未找到进程时只更新状态，不弹窗打断用户
+                detectMinecraft(true);
             } catch (Exception e) {
                 LOGGER.error("自动检测失败", e);
             }
@@ -263,10 +264,11 @@ public class MainWindow extends JFrame {
     }
     
     private void onDetect(ActionEvent e) {
-        detectMinecraft();
+        // 用户主动点击"重新检测"时才给出弹窗反馈
+        detectMinecraft(false);
     }
     
-    private void detectMinecraft() {
+    private void detectMinecraft(boolean silent) {
         LOGGER.info("开始检测 Minecraft");
         
         MinecraftProcessDetector detector = new MinecraftProcessDetector();
@@ -276,10 +278,12 @@ public class MainWindow extends JFrame {
             SwingUtilities.invokeLater(() -> {
                 statusLabel.setValue("WAITING_FOR_MINECRAFT");
                 statusLabel.setValueColor(new Color(255, 149, 0));
-                JOptionPane.showMessageDialog(this, 
-                    "未找到 Minecraft 进程\n请先启动网易 Minecraft", 
-                    "检测结果", 
-                    JOptionPane.WARNING_MESSAGE);
+                if (!silent) {
+                    JOptionPane.showMessageDialog(this,
+                        "未找到 Minecraft 进程\n请先启动网易 Minecraft",
+                        "检测结果",
+                        JOptionPane.WARNING_MESSAGE);
+                }
             });
             return;
         }
@@ -465,5 +469,52 @@ public class MainWindow extends JFrame {
     private String truncate(String str, int maxLen) {
         if (str == null || str.length() <= maxLen) return str != null ? str : "N/A";
         return "..." + str.substring(str.length() - maxLen);
+    }
+    
+    /**
+     * 截取自身窗口并保存为 PNG
+     * 
+     * <p>用于界面记录与自动化验收：先置顶窗口避免被其他程序遮挡，
+     * 再用 {@link java.awt.Robot} 按窗口自身坐标系截图，避免外部工具
+     * 因 DPI 虚拟化导致坐标错位、画面被裁切。</p>
+     *
+     * @param outputPath 输出文件路径
+     * @return 是否成功
+     */
+    public boolean captureSelf(String outputPath) {
+        boolean previousTop = isAlwaysOnTop();
+        try {
+            setAlwaysOnTop(true);
+            toFront();
+            requestFocus();
+            Thread.sleep(1200);
+            
+            java.awt.Rectangle bounds = getBounds();
+            java.awt.image.BufferedImage raw = new java.awt.Robot()
+                .createScreenCapture(bounds);
+            
+            // 裁掉窗口边框与 DWM 阴影造成的右下杂边，只保留界面本身
+            int trim = 10;
+            int width = Math.max(1, raw.getWidth() - trim);
+            int height = Math.max(1, raw.getHeight() - trim);
+            java.awt.image.BufferedImage image = raw.getSubimage(0, 0, width, height);
+            
+            java.io.File output = new java.io.File(outputPath);
+            java.io.File parent = output.getParentFile();
+            if (parent != null && !parent.exists()) {
+                parent.mkdirs();
+            }
+            
+            javax.imageio.ImageIO.write(image, "png", output);
+            LOGGER.info("窗口截图已保存: {} ({}x{})",
+                output.getAbsolutePath(), width, height);
+            return true;
+            
+        } catch (Exception e) {
+            LOGGER.error("窗口截图失败", e);
+            return false;
+        } finally {
+            setAlwaysOnTop(previousTop);
+        }
     }
 }

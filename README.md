@@ -25,10 +25,12 @@
 
 ---
 
-<img src="docs/images/demo.gif" alt="演示动画" width="800">
+<div align="center">
+
+<img src="docs/screenshots/launcher-gui.png" alt="YiYi WYMC Loader 界面" width="620">
 
 <p align="center">
-  <em>一键检测 → 分析 Runtime → 注入 Agent → 导出报告</em>
+  <em>玻璃质感界面 · 一键检测 → 分析 Runtime → 注入 Agent → 导出报告</em>
 </p>
 
 </div>
