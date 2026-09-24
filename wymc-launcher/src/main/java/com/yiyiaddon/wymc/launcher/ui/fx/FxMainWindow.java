@@ -82,7 +82,7 @@ public class FxMainWindow extends Application {
         
         VBox root = createMainLayout();
         
-        Scene scene = new Scene(root, 900, 900);
+        Scene scene = new Scene(root, 1200, 650);
         scene.getStylesheets().add(
             getClass().getResource("/css/wymc-dark.css").toExternalForm()
         );
@@ -98,7 +98,7 @@ public class FxMainWindow extends Application {
     
     private VBox createMainLayout() {
         VBox root = new VBox(15);
-        root.setPadding(new Insets(25));
+        root.setPadding(new Insets(20));
         root.getStyleClass().add("root");
         
         // 标题
@@ -111,33 +111,50 @@ public class FxMainWindow extends Application {
         VBox header = new VBox(5, title, subtitle);
         header.setAlignment(Pos.CENTER);
         
-        // 信息面板（可滚动）
-        ScrollPane scrollPane = new ScrollPane(createInfoPanel());
-        scrollPane.setFitToWidth(true);
-        scrollPane.getStyleClass().add("info-scroll");
-        VBox.setVgrow(scrollPane, Priority.ALWAYS);
+        // 信息面板（6宫格布局：3列2行）
+        GridPane grid = createInfoGrid();
+        VBox.setVgrow(grid, Priority.ALWAYS);
         
         // 按钮区
         HBox buttonBox = createButtonBox();
         
-        root.getChildren().addAll(header, scrollPane, buttonBox);
+        root.getChildren().addAll(header, grid, buttonBox);
         return root;
     }
     
-    private VBox createInfoPanel() {
-        VBox panel = new VBox(12);
-        panel.setPadding(new Insets(5));
+    private GridPane createInfoGrid() {
+        GridPane grid = new GridPane();
+        grid.setHgap(15);
+        grid.setVgap(15);
+        grid.setPadding(new Insets(10, 0, 0, 0));
         
-        panel.getChildren().addAll(
-            createMinecraftSection(),
-            createJavaSection(),
-            createRuntimeSection(),
-            createUnpackSection(),
-            createInjectionSection(),
-            createServerSection()
-        );
+        // 设置列宽均等
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(33.33);
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(33.33);
+        ColumnConstraints col3 = new ColumnConstraints();
+        col3.setPercentWidth(33.33);
+        grid.getColumnConstraints().addAll(col1, col2, col3);
         
-        return panel;
+        // 设置行高均等
+        RowConstraints row1 = new RowConstraints();
+        row1.setPercentHeight(50);
+        RowConstraints row2 = new RowConstraints();
+        row2.setPercentHeight(50);
+        grid.getRowConstraints().addAll(row1, row2);
+        
+        // 第一行
+        grid.add(createMinecraftSection(), 0, 0);
+        grid.add(createRuntimeSection(), 1, 0);
+        grid.add(createInjectionSection(), 2, 0);
+        
+        // 第二行
+        grid.add(createJavaSection(), 0, 1);
+        grid.add(createUnpackSection(), 1, 1);
+        grid.add(createServerSection(), 2, 1);
+        
+        return grid;
     }
     
     private VBox createMinecraftSection() {
@@ -226,11 +243,11 @@ public class FxMainWindow extends Application {
         Label titleLabel = new Label(title);
         titleLabel.getStyleClass().add("section-title");
         
-        VBox content = new VBox(8);
+        VBox content = new VBox(6);
         content.getStyleClass().add("section-content");
         content.getChildren().addAll(rows);
         
-        VBox section = new VBox(10, titleLabel, content);
+        VBox section = new VBox(8, titleLabel, content);
         section.getStyleClass().add("section");
         
         return section;
@@ -239,11 +256,11 @@ public class FxMainWindow extends Application {
     private HBox createInfoRow(String key, Label value) {
         Label keyLabel = new Label(key);
         keyLabel.getStyleClass().add("info-key");
-        keyLabel.setMinWidth(180);
+        keyLabel.setMinWidth(100);
         
         value.getStyleClass().add("info-value");
         
-        HBox row = new HBox(15, keyLabel, value);
+        HBox row = new HBox(10, keyLabel, value);
         row.setAlignment(Pos.CENTER_LEFT);
         
         return row;

@@ -63,7 +63,7 @@
 .section {
     -fx-background-color: rgba(31, 41, 55, 0.8);
     -fx-background-radius: 12px;
-    -fx-padding: 18px;
+    -fx-padding: 15px;
     -fx-border-color: rgba(59, 130, 246, 0.3);
     -fx-border-width: 1px;
     -fx-border-radius: 12px;
@@ -71,24 +71,24 @@
 }
 
 .section-title {
-    -fx-font-size: 17px;
+    -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-text-fill: #f9fafb;
 }
 
 .section-content {
-    -fx-padding: 8px 0 0 0;
+    -fx-padding: 6px 0 0 0;
 }
 
 /* 信息行 */
 .info-key {
     -fx-text-fill: #d1d5db;
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
 }
 
 .info-value {
     -fx-text-fill: #f3f4f6;
-    -fx-font-size: 14px;
+    -fx-font-size: 13px;
     -fx-font-weight: 600;
 }
 
