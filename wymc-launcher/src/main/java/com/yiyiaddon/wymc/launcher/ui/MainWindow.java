@@ -217,7 +217,7 @@ public class MainWindow extends JFrame {
         detectButton = new GlassButton("重新检测");
         detectButton.addActionListener(this::onDetect);
         
-        analyzeButton = new GlassButton("分析 Runtime");
+        analyzeButton = new GlassButton("脱壳分析");
         analyzeButton.setEnabled(false);
         analyzeButton.addActionListener(this::onAnalyze);
         
